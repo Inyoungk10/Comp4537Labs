@@ -6,7 +6,7 @@ if (typeof (Storage) == "undefined") {
     window.stop();
 }
 
-var count = 0;
+let count = 0;
 
 // storing and updating time every 2 seconds
 window.setInterval(function() {
