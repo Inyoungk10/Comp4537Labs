@@ -1,0 +1,102 @@
+.center {
+
+    width: 50%;
+    padding: 10px;
+    text-align: center;
+  }
+
+/* Index */
+.container-index { 
+    height: 200px;
+    position: relative;
+}
+
+a.btn-index {
+   display:inline-block;
+    width: 120px;
+    height: 25px;
+    background: #7db4a2;
+    text-decoration:none;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    color: #004d54;
+    font-weight: bold;
+    line-height: 25px;
+}
+
+/* Writer */
+.btn-add {
+    background-color: #008000;
+    color: #dbefe1;
+    transition-duration: 0.4s;
+    border: none;
+    padding: 10px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 20px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 8px;
+}
+.btn-add:hover {
+    color: #008000;
+    background-color: #dbefe1;
+  }
+
+.btn-remove {
+    background-color: #f4b786;
+    color: #dbefe1;
+    transition-duration: 0.4s;
+    border: none;
+    padding: 8px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 15px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+}
+
+.txtboxNotes{
+    width: 30%;
+    padding: 10px;
+    margin: auto;
+    border-radius: 5px;
+
+}
+
+a.btn-home {
+    display:inline-block;
+    width: 120px;
+    height: 25px;
+    background: #cd2956;
+    text-decoration:none;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    color: #dbefe1;
+    font-weight: bold;
+    line-height: 25px;
+}
+
+
+.textNotes {
+    border-radius: 5px;
+    height: 50px;
+    width: 30%;
+    font-size: 20px;
+    padding: 10px;
+    border-style:solid;
+    background: #ffe4e1;
+    color: #3d3d5b;
+    border-color: #3d3d5b;
+}
+
+.timeDiv{
+    position:absolute;
+    top:0;
+    right:0;
+}

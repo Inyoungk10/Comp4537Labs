@@ -1,6 +1,4 @@
 const msg_notSupported = "Sorry web Storage is not supported!";
-
-let textArray = [];
 localStorage.clear();
 
 // reading and updating time every 2 seconds
@@ -17,21 +15,20 @@ window.setInterval(function() {
     let time = new Date();
     document.getElementById("timeR").innerHTML = "updated at: " + time.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true});
 
-    textArray = localStorage.getItem("array");
+    textArray = JSON.parse(localStorage.getItem("array"));
 
     if (textArray != null) {
-        let split = textArray.split(",");
-
-        for (j = 0; j < split.length; j++) {
-            let n = new note(split[j], div);
+        for (j = 0; j < textArray.length; j++) {
+            let textString = textArray[j].substring(1, textArray[j].length - 1);
+            let n = new note(textString, div);
         }
     }
-    console.log(textArray);
-
+    
 }, 2000);
 
 function note(text, parentDiv) {
     this.note = document.createElement("p");
     this.note.innerHTML = text;
+    this.note.className += "textNotes"
     parentDiv.appendChild(this.note);
 }

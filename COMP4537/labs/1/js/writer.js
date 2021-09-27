@@ -1,4 +1,5 @@
 const msg_notSupported = "Sorry web Storage is not supported!";
+localStorage.clear();
 
 // reading and updating time every 2 seconds
 if (typeof (Storage) == "undefined") {
@@ -18,17 +19,18 @@ window.setInterval(function() {
     let textArray = [];
 
     for (i = 0; i < count; i++) {
+
         let textBox = document.getElementById("text" + i);
         if (textBox == null) {
             continue;
         }
-        console.log(textBox.value);
-        let text = textBox.value;
+        let text = JSON.stringify(textBox.value);
         textArray.push(text);
-        //console.log("text being pushed: " + text);
-        localStorage.setItem("array", textArray);
+        
     };
-    
+
+    localStorage.setItem("array", JSON.stringify(textArray));
+
 }, 2000);
 
 function txtbox(id, type, bgcolor, textcolor, parentDiv) {
@@ -36,6 +38,7 @@ function txtbox(id, type, bgcolor, textcolor, parentDiv) {
     this.tb.id = "text" + id;
     this.type = type;
     this.tb.style.background = bgcolor;
+    this.tb.className += "txtboxNotes"
     this.tb.style.color = textcolor;
     parentDiv.appendChild(this.tb);
 }
@@ -45,6 +48,7 @@ function rButton(bgcolor, txtcolor, id, parentDiv) {
     this.btn.innerHTML = "remove";
     this.btn.style.backgroundColor = bgcolor;
     this.btn.style.color = txtcolor;
+    this.btn.className += "btn-remove"
     this.btn.id = "btn" + id;
     this.btn.onclick = function () {
         document.getElementById("text" + id).remove();
@@ -57,11 +61,11 @@ document.getElementById("add").onclick = function() {
     let notesDiv = document.getElementById("notes");
 
     let div = document.createElement("div");
-    let textbox = new txtbox(count, "text", "blue", "white", div);
+    let textbox = new txtbox(count, "text", "#ffe4e1", "#3d3d5b", div);
     let removeButton = new rButton("orange", "white", count, div);
 
     notesDiv.appendChild(div);
-    console.log("yay!" + count);
+
     count++;
     
 };
