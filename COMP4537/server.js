@@ -8,7 +8,7 @@ http.createServer(function (req, res) {
     console.log(q.query);
     res.writeHead(200, {'Content-type' : 'text/html'});
 
-    res.end('<h2 style="color:blue">  Hello ' + q.query["name"] + ` What a beautiful day. Server current date and time is ${utils.getCurrent()} </h2>`);
+    res.end('<h2 style="color:blue">  Hello ' + q.query["name"] + ` What a beautiful day. Server current date and time is ${util.getCurrent()} </h2>`);
 
 }).listen(8000);
 
