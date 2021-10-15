@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search</title>
+</head>
+<body>
+    <div id="msg">
+        no message
+    </div>
+    <div>
+        <input type="text" id="search" name="search"><br>
+        <p id = "display"></p>
+        <button type="button" onclick="get()">Submit</button>
+        </div>
+
+
+</body>
+</html>
+<script>
+    const xhttp = new XMLHttpRequest();
+    const endPointRoot = "http:/localhost:9000/";
+    let params =`?word=${document.getElementById('search').value}.value}`;
+
+    function get() {
+        const url = endPointRoot + params;
+        xhttp.open("GET", url, true);
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("msg").innerHTML = this.responseText;
+            }
+        };
+    }
+</script>
