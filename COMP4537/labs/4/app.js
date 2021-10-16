@@ -1,59 +1,80 @@
-let http = require('http');
+const { pbkdf2 } = require('crypto');
+const http = require('http');
 let url = require('url');
-const mysql = require('mysql');
+const words = require("./definitions/words");
 
-const con = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-    database: "comp4537"
-});
+let counter = 0;
+let dictionary = [{word: "word", definition: "this is a great word"}, {word: "hello", definition: "hi there"}];
 
-const server = http.createServer(function (req, res) {
+/**
+ * [
+ *     {word, definition}, {word, definition}
+ * ]
+ */
+
+const server = http.createServer((req, res) => {
+    // display how many requests have been made
+    counter++;
     let q = url.parse(req.url, true);
-    console.log(q.query);
-    if (req.method === "GET") {
+    if (req.method === 'GET') {
         let word = q.query["word"];
-        res.writeHead(200, {
-            'Content-type' : 'text/html',
-            'Access-Control-Allow-Origin': '*'
-        });
-        con.connect(function(err) {
-            if (err) throw err;
-            console.log("connected");
-            // get word name from request
-            let sql = `SELECT wordName FROM words WHERE wordName = ${word}`;// sql satement
-            con.query(sql, function (err, result) {
-                if (err) throw err;
-                console.log("1 record inserted");
+
+        let obj = dictionary.find(o => o.word === word);
+        console.log(obj);
+        if (obj != undefined) {
+            res.writeHead(200, {
+                'Content-type' : 'application/json',
+                'Access-Control-Allow-Origin': '*'
             });
-        });
-
-    } else if (req.method === "POST") {
-        res.writeHead(200, {
-            'Content-type' : 'text/html',
-            'Access-Control-Allow-Origin': '*'
-        });
-
-        let word = q.query["word"];
-        let wordDef = q.query["definition"];
-
-        con.connect(function(err) {
-            if (err) throw err;
-            console.log("connected");
-            // get wordname and get word definition
-            let sql = `INSERT INTO words (wordName, wordDef) values (${word}, ${wordDef})`;// sql satement
-            con.query(sql, function (err, result) {
-                if (err) throw err;
-                console.log("1 record inserted");
+            // get from storage and display here
+            res.end(JSON.stringify(obj));
+            console.log("found " + obj.word + ":" + obj.definition);
+        }
+        else
+        {
+            res.writeHead(404, {
+                'Content-type' : 'application/json',
+                'Access-Control-Allow-Origin': '*'
             });
-        });
-        res.end(``);
+            let message = "Request # " + counter + ", word: '" + word + "' could not be found";
+            res.end(JSON.stringify({error: message}));
+        }
+        
+        
     }
-    
+    else if (req.method === 'POST' && req.url === "/api/definitions") {
+        res.writeHead(201, {
+            'Content-type' : 'application/json',
+            'Access-Control-Allow-Origin': '*'
+        });
 
-});
+        let wordq = q.query["word"];
+        let definitionq = q.query["definition"];
 
-server.listen(9000);
+        let post = {
+            word: wordq,
+            definition: definitionq
+        };
 
-console.log('listening....');
+        if (post.definition != undefined || post.word != undefined) {
+            dictionary.push(post);
+            res.end(JSON.stringify(post));
+            console.log("you added " + post.word +  " : " + post.definition);
+        }
+        else
+        {
+            res.end(JSON.stringify({error: "Undefined"}));
+        }
+        
+    }
+    else
+    {
+        res.writeHead(404, {
+            'Content-type' : 'application/json',
+            'Access-Control-Allow-Origin': '*'
+        });
+        res.end(JSON.stringify({message: "Route not found"}));
+    }
+})
+
+server.listen(9000, () => console.log('server running on port 9000'))
