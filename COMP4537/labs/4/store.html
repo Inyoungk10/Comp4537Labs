@@ -33,15 +33,17 @@
         xhttp.send(params);
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 201) {
-                console.log(this.responseText);
+                console.log("res text " + this.responseText);
+                console.log("ready state: " + this.readyState);
+                console.log("status: " + this.status);
             }
             else {
                 let obj = JSON.parse(this.responseText);
                 document.getElementById("error").innerHTML = obj.error;
-            }
-                
+                console.log("this made it here!");
+            }      
         };
-        console.log("this made it here!");
+
     }
 
     function reset() {
