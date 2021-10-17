@@ -15,12 +15,13 @@ let dictionary = [{word: "word", definition: "this is a great word"}, {word: "he
 const server = http.createServer((req, res) => {
     // display how many requests have been made
     counter++;
+    let q = url.parse(req.url, true);
+
     let wordq = q.query["word"];
     let definitionq = q.query["definition"];
 
     let postUrl = "/api/definitions/?word=" + wordq + "&definition=" + definitionq;
-
-    let q = url.parse(req.url, true);
+    
     if(req.url === "/api/definitions")
     {
         res.writeHead(200, {
@@ -87,7 +88,7 @@ const server = http.createServer((req, res) => {
             'Access-Control-Allow-Origin': '*'
         });
 
-        res.end(JSON.stringify({message: "Route not found" + " posturl" + postUrl}));
+        res.end(JSON.stringify({message: "Route not found" + " url" + req.url + " method: " + req.method}));
     }
 });
 
