@@ -73,18 +73,18 @@ const server = http.createServer((req, res) => {
     }
     else if(req.url === "/api/definitions")
     {
+        res.writeHead(200, {
+            'Content-type' : 'text/html',
+            'Access-Control-Allow-Origin': '*'
+        });
+        res.end(JSON.stringify({Requests: counter + " requests have been made."}));
+    }
+    else {
         res.writeHead(404, {
             'Content-type' : 'application/json',
             'Access-Control-Allow-Origin': '*'
         });
         res.end(JSON.stringify({message: "Route not found"}));
-    }
-    else {
-        res.writeHead(404, {
-            'Content-type' : 'text/html',
-            'Access-Control-Allow-Origin': '*'
-        });
-        res.end(JSON.stringify({Requests: counter + " requests have been made."}));
     }
 });
 
