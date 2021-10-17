@@ -24,7 +24,7 @@ const server = http.createServer((req, res) => {
         });
         res.end(counter + " requests have been made.");
     }
-    else if (req.method === 'GET') {
+    else if (req.method === 'GET' && req.url === "/api/definitions") {
         let word = q.query["word"];
 
         let obj = dictionary.find(o => o.word === word);
@@ -85,7 +85,11 @@ const server = http.createServer((req, res) => {
             'Content-type' : 'application/json',
             'Access-Control-Allow-Origin': '*'
         });
-        res.end(JSON.stringify({message: "Route not found"}));
+
+        let wordq = q.query["word"];
+        let definitionq = q.query["definition"];
+
+        res.end(JSON.stringify({message: "Route not found" + wordq + definitionq}));
     }
 });
 
