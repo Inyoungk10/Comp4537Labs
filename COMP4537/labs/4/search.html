@@ -27,7 +27,7 @@
     
     function get() {
         reset();
-        
+
         let searchWord = document.getElementById('search').value;
     
         let params =`?word=` + searchWord;
@@ -37,7 +37,6 @@
         xhttp.send();
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
-                console.log(this.responseText);
                 let obj = JSON.parse(this.responseText);
 
                 document.getElementById("displayword").innerHTML = "Word: " + obj.word;

@@ -13,7 +13,7 @@
         <button type="button" onclick="post()">Submit</button>
     </div>
 
-    <p id="error"></p>
+    <p id="res"></p>
     
 </body>
 </html>
@@ -26,29 +26,27 @@
     function post() {
         reset();
 
-        let params =`?word=${document.getElementById('name').value}&definition=${document.getElementById('description').value}`;
+        let word = document.getElementById('name').value;
+        let def = document.getElementById('description').value;
+
+        let params =`?word=${word}&definition=${def}`;
 
         xhttp.open("POST", endPointRoot + params, true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.send(params);
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 201) {
-                console.log("res text " + this.responseText);
-                console.log("ready state: " + this.readyState);
-                console.log("status: " + this.status);
+                document.getElementById("res").innerHTML = "You added word: " + word + " Definition: " + def;
             } else {
                 let obj = JSON.parse(this.responseText);
-                document.getElementById("error").innerHTML = obj.error;
-                console.log("err res text " + this.responseText);
-                console.log("err ready state: " + this.readyState);
-                console.log("err status: " + this.status);
-                console.log("this made it here!");
+                if (obj.error != undefined) {
+                    document.getElementById("error").innerHTML = obj.error;
+                }
             }      
         };
-
     }
 
     function reset() {
-        document.getElementById("error").innerHTML = "";
+        document.getElementById("res").innerHTML = "";
     }
 </script>
