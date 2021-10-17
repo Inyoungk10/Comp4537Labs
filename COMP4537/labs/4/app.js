@@ -89,7 +89,7 @@ const server = http.createServer((req, res) => {
             'Access-Control-Allow-Origin': '*'
         });
 
-        res.end(JSON.stringify({message: "Route not found" + " url" + req.url + " method: " + req.method}));
+        res.end(JSON.stringify({message: "Route not found" + " url" + req.url + " method: " + req.method + "def q " + definitionq}));
     }
 });
 

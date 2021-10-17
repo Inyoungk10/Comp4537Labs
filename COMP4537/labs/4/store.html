@@ -36,8 +36,7 @@
                 console.log("res text " + this.responseText);
                 console.log("ready state: " + this.readyState);
                 console.log("status: " + this.status);
-            }
-            else {
+            } else {
                 let obj = JSON.parse(this.responseText);
                 document.getElementById("error").innerHTML = obj.error;
                 console.log("err res text " + this.responseText);
