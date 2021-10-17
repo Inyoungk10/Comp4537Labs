@@ -22,7 +22,7 @@ const server = http.createServer((req, res) => {
             'Content-type' : 'text/html',
             'Access-Control-Allow-Origin': '*'
         });
-        res.end(JSON.stringify({Requests: counter + " requests have been made."}));
+        res.end(counter + " requests have been made.");
     }
     else if (req.method === 'GET') {
         let word = q.query["word"];
@@ -76,7 +76,7 @@ const server = http.createServer((req, res) => {
                 'Content-type' : 'application/json',
                 'Access-Control-Allow-Origin': '*'
             });
-            res.end(JSON.stringify({error: "Undefined"}));
+            res.end(JSON.stringify({error: "Undefined" + wordq + definitionq}));
         }
         
     }
