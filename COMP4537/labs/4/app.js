@@ -43,10 +43,6 @@ const server = http.createServer((req, res) => {
         
     }
     else if (req.method === 'POST' && req.url === "/api/definitions") {
-        res.writeHead(201, {
-            'Content-type' : 'application/json',
-            'Access-Control-Allow-Origin': '*'
-        });
 
         let wordq = q.query["word"];
         let definitionq = q.query["definition"];
@@ -57,17 +53,25 @@ const server = http.createServer((req, res) => {
         };
 
         if (post.definition != undefined || post.word != undefined) {
+            res.writeHead(201, {
+                'Content-type' : 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            });
             dictionary.push(post);
             res.end(JSON.stringify(post));
             console.log("you added " + post.word +  " : " + post.definition);
         }
         else
         {
+            res.writeHead(404, {
+                'Content-type' : 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            });
             res.end(JSON.stringify({error: "Undefined"}));
         }
         
     }
-    else
+    else if(req.url === "/api/definitions")
     {
         res.writeHead(404, {
             'Content-type' : 'application/json',
@@ -75,6 +79,13 @@ const server = http.createServer((req, res) => {
         });
         res.end(JSON.stringify({message: "Route not found"}));
     }
-})
+    else {
+        res.writeHead(404, {
+            'Content-type' : 'text/html',
+            'Access-Control-Allow-Origin': '*'
+        });
+        res.end(JSON.stringify({Requests: counter + " requests have been made."}));
+    }
+});
 
-server.listen(9000, () => console.log('server running on port 9000'))
+server.listen(9000, () => console.log('server running on port 9000'));

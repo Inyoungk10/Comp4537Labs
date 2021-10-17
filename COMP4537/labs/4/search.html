@@ -26,7 +26,8 @@
     const endPointRoot = "https://inyoungkang.me/api/definitions/";
     
     function get() {
-
+        reset();
+        
         let searchWord = document.getElementById('search').value;
     
         let params =`?word=` + searchWord;
@@ -48,5 +49,10 @@
             }
                 
         };
+    }
+
+    function reset() {
+        document.getElementById("displayword").innerHTML = "";
+        document.getElementById("displaydef").innerHTML = "";
     }
 </script>

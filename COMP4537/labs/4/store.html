@@ -24,6 +24,8 @@
 
     
     function post() {
+        reset();
+
         let params =`?word=${document.getElementById('name').value}&definition=${document.getElementById('description').value}`;
 
         xhttp.open("POST", endPointRoot + params, true);
@@ -40,5 +42,9 @@
                 
         };
         console.log("this made it here!");
+    }
+
+    function reset() {
+        document.getElementById("error").innerHTML = "";
     }
 </script>
