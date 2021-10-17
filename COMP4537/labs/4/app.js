@@ -16,7 +16,15 @@ const server = http.createServer((req, res) => {
     // display how many requests have been made
     counter++;
     let q = url.parse(req.url, true);
-    if (req.method === 'GET') {
+    if(req.url === "/api/definitions")
+    {
+        res.writeHead(200, {
+            'Content-type' : 'text/html',
+            'Access-Control-Allow-Origin': '*'
+        });
+        res.end(JSON.stringify({Requests: counter + " requests have been made."}));
+    }
+    else if (req.method === 'GET') {
         let word = q.query["word"];
 
         let obj = dictionary.find(o => o.word === word);
@@ -47,16 +55,17 @@ const server = http.createServer((req, res) => {
         let wordq = q.query["word"];
         let definitionq = q.query["definition"];
 
-        let post = {
-            word: wordq,
-            definition: definitionq
-        };
-
-        if (post.definition != undefined || post.word != undefined) {
+        if (wordq != undefined || definitionq != undefined) {
             res.writeHead(201, {
                 'Content-type' : 'application/json',
                 'Access-Control-Allow-Origin': '*'
             });
+
+            let post = {
+                word: wordq,
+                definition: definitionq
+            };
+
             dictionary.push(post);
             res.end(JSON.stringify(post));
             console.log("you added " + post.word +  " : " + post.definition);
@@ -70,14 +79,6 @@ const server = http.createServer((req, res) => {
             res.end(JSON.stringify({error: "Undefined"}));
         }
         
-    }
-    else if(req.url === "/api/definitions")
-    {
-        res.writeHead(200, {
-            'Content-type' : 'text/html',
-            'Access-Control-Allow-Origin': '*'
-        });
-        res.end(JSON.stringify({Requests: counter + " requests have been made."}));
     }
     else {
         res.writeHead(404, {
