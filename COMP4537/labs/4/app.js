@@ -21,6 +21,7 @@ const server = http.createServer((req, res) => {
     let definitionq = q.query["definition"];
 
     let postUrl = "/api/definitions/?word=" + wordq + "&definition=" + definitionq;
+    let getUrl = "/api/definitions/?word=" + wordq
     
     if(req.url === "/api/definitions")
     {
@@ -30,7 +31,7 @@ const server = http.createServer((req, res) => {
         });
         res.end(counter + " requests have been made.");
     }
-    else if (req.method === 'GET' && req.url === "/api/definitions") {
+    else if (req.method === 'GET' && req.url === getUrl) {
         let word = q.query["word"];
 
         let obj = dictionary.find(o => o.word === word);
