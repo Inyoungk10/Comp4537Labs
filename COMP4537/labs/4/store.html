@@ -40,6 +40,9 @@
             else {
                 let obj = JSON.parse(this.responseText);
                 document.getElementById("error").innerHTML = obj.error;
+                console.log("err res text " + this.responseText);
+                console.log("err ready state: " + this.readyState);
+                console.log("err status: " + this.status);
                 console.log("this made it here!");
             }      
         };
