@@ -76,9 +76,8 @@ const server = http.createServer((req, res) => {
                 'Content-type' : 'application/json',
                 'Access-Control-Allow-Origin': '*'
             });
-            res.end(JSON.stringify({error: "Undefined" + wordq + definitionq}));
+            res.end(JSON.stringify({error: "Undefined"}));
         }
-        
     }
     else {
         res.writeHead(404, {
@@ -86,10 +85,8 @@ const server = http.createServer((req, res) => {
             'Access-Control-Allow-Origin': '*'
         });
 
-        let wordq = q.query["word"];
-        let definitionq = q.query["definition"];
-
-        res.end(JSON.stringify({message: "Route not found" + wordq + definitionq}));
+        res.end(JSON.stringify({message: "Route not found"}));
+        console.log("url" + req.url + " method: " + req.method);
     }
 });
 
