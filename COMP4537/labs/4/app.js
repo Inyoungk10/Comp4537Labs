@@ -57,7 +57,7 @@ const server = http.createServer((req, res) => {
         
         
     }
-    else if (req.method === 'POST' && req.url === postUrl) {
+    else if (req.method === 'POST') {
 
         if (wordq != undefined || definitionq != undefined) {
             res.writeHead(201, {
