@@ -24,11 +24,32 @@
 <script>
     const xhttp = new XMLHttpRequest();
     const endPointRoot = "https://inyoungkang.me/api/definitions/";
+    //const endPointRoot = "http://localhost:9000/api/definitions/";
     
     function get() {
         reset();
 
-        let searchWord = document.getElementById('search').value;
+        let searchWord = document.getElementById('search').value.trim();
+    
+        //validation check
+        if (searchWord == "") {
+            alert("Please enter a word");
+            return false;
+
+        } else if(/\d/.test(searchWord)){
+            alert("Numbers cannot be included in word!");
+            return false;
+
+        } else if (searchWord.indexOf(' ') != -1){
+            alert("Please input only ONE word at a time(NO SPACES)");
+            return false;
+
+        } else if (!searchWord.match("^[a-zA-Z]*$")){
+            alert("Only letters A-Z allowed!");
+            return false;
+        }
+
+
     
         let params =`?word=` + searchWord;
         const url = endPointRoot + params;
@@ -38,6 +59,7 @@
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 let obj = JSON.parse(this.responseText);
+                console.log(obj);
 
                 document.getElementById("displayword").innerHTML = "Word: " + obj.word;
                 document.getElementById("displaydef").innerHTML = "Definition: " + obj.definition;
@@ -50,6 +72,7 @@
         };
     }
 
+    //clear displays
     function reset() {
         document.getElementById("displayword").innerHTML = "";
         document.getElementById("displaydef").innerHTML = "";

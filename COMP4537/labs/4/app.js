@@ -64,14 +64,18 @@ const server = http.createServer((req, res) => {
                 'Content-type' : 'application/json',
                 'Access-Control-Allow-Origin': '*'
             });
-
+            
             let post = {
                 word: wordq,
                 definition: definitionq
             };
-
+            //success message
+            let message = "Request #" + counter + "\nNew Entry Recorded:\n" + post.word + " : " + post.definition;
+            
             dictionary.push(post);
-            res.end(JSON.stringify(post));
+            //res.end(JSON.stringify(post));
+            res.end(JSON.stringify({posted:post, success: message}));
+            //console.log(success.message);
             console.log("you added " + post.word +  " : " + post.definition);
         }
         else

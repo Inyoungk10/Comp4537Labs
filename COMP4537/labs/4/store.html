@@ -21,13 +21,32 @@
 <script>
     const xhttp = new XMLHttpRequest();
     const endPointRoot = "https://inyoungkang.me/api/definitions/";
-
+    //const endPointRoot = "http://localhost:9000/api/definitions/";
     
     function post() {
         reset();
 
-        let word = document.getElementById('name').value;
-        let def = document.getElementById('description').value;
+        let word = document.getElementById('name').value.trim();
+        let def = document.getElementById('description').value.trim();
+
+        //validation check
+        if (word == "" || def == "") {
+            alert("Empty inputs");
+            return false;
+            
+        } else if (!word.match("^[a-zA-Z]*$")){
+            alert("Only letters A-Z allowed!");
+            return false;
+
+        } else if(/\d/.test(word)){
+            alert("Numbers cannot be included in word!");
+            return false;
+
+        } else if (word.indexOf(' ') != -1){
+            alert("Please input only ONE word at a time(NO SPACES)");
+            return false;
+
+        }
 
         let params =`?word=${word}&definition=${def}`;
 
@@ -36,16 +55,25 @@
         xhttp.send(params);
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 201) {
-                document.getElementById("res").innerHTML = "You added word: " + word + " Definition: " + def;
+                 let obj = JSON.parse(this.responseText);
+                 console.log(obj.success);
+                 console.log("response text"+this.responseText);
+                 if (obj.success != undefined) {
+                     //set txt as success message
+                     document.getElementById("res").innerHTML = obj.success;
+                 }
+                
             } else {
                 let obj = JSON.parse(this.responseText);
                 if (obj.error != undefined) {
-                    document.getElementById("error").innerHTML = obj.error;
+                    //set txt as error message
+                    document.getElementById("res").innerHTML = obj.error;
                 }
             }      
         };
     }
 
+    //clear txt
     function reset() {
         document.getElementById("res").innerHTML = "";
     }
