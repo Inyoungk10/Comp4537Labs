@@ -41,9 +41,9 @@ app.post("/api/v1/scores" , function (req, res) {
 
     let sql = "INSERT INTO score (name, score) values (\'" + nameq + "\', " + scoreq + ")";
     con.query(sql, function (sqlErr, sqlRes) {
-        console.log(sqlRes.Message);
+        //console.log(sqlRes.Message);
         if (sqlErr) {
-            res.status(404).send("Error: " + sqlRes.Message);
+            res.status(404).send("Error: " + sqlErr.message);
             throw err;
         } else {
         res.send(JSON.stringify(record));
