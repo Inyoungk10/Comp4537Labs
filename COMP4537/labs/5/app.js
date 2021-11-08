@@ -47,7 +47,7 @@ app.post("/api/v1/scores" , function (req, res) {
             res.status(404).send("Error: " + sqlErr.message);
             throw err;
         } else {
-        res.send(JSON.stringify(record));
+        res.status(201).send(JSON.stringify(record));
         }
         console.log("1 record inserted");
     })
