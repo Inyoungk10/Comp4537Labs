@@ -36,7 +36,8 @@ app.post("/api/v1/scores" , function (req, res) {
 
     let record = {
         name: nameq,
-        score: scoreq
+        score: scoreq,
+        success: "Record Successfully Added: " + "Name: " + nameq + "Score: " + scoreq
     };
 
     let sql = "INSERT INTO score (name, score) values (\'" + nameq + "\', " + scoreq + ")";
