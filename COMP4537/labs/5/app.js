@@ -19,7 +19,7 @@ app.use(function (req, res, next){
 
 });
 
-app.get("/api/v1/" , (req,res) => {
+app.get("/api/v1/scores" , (req,res) => {
     con.query("SELECT name, score FROM score", (err, result) => {
         if (err) throw err;
         let str = "";
@@ -30,26 +30,30 @@ app.get("/api/v1/" , (req,res) => {
     });
 });
 
+app.post("/api/v1/scores" , function (req, res) {
+    let nameq = req.query.name;
+    let scoreq = req.query.score;
+
+    let record = {
+        name: nameq,
+        score: scoreq
+    };
+
+    let sql = "INSERT INTO score (name, score) values (\'" + nameq + "\', " + scoreq + ")";
+    con.query(sql, function (sqlErr, sqlRes) {
+        console.log(sqlRes.Message);
+        if (sqlErr) {
+            res.status(404).send("Error: " + sqlRes.Message);
+            throw err;
+        } else {
+        res.send(JSON.stringify(record));
+        }
+        console.log("1 record inserted");
+    })
+    
+});
+
 app.listen(PORT, (err) => {
     if (err) throw err;
     console.log("Listening to port ", PORT);
 })
-// var server = http.createServer(function (req, res) {
-//     res.writeHead(200, {'Content-Type' : 'text/html',
-//      'Access-Control-Allow-Origin' : "*"
-//     });
-//     con.connect(function(err) {
-//         if(err) throw err;
-//         console.log("connected");
-//         let sql = "INSERT INTO score(name, score) values ('prancis', 41)"
-//         con.query(sql, function (err,result) {
-//             if (err) throw err;
-//             console.log("inserted")
-//         })
-
-            
-
-//         });
-//     });
-
-// server.listen(9000, () => console.log('server running on port 9000'));

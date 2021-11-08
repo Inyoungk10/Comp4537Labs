@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WriteDB</title>
+</head>
+<body>
+    <div>
+        <label>Name: </label>
+        <input type="text" id="name" name="name"><br>
+        <label>Score: </label>
+        <input type="text" id="score" name="score"><br>
+        <button type="button" onclick="post()">Submit</button>
+    </div>
+
+    <p id="res"></p>
+    
+</body>
+</html>
+
+<script>
+    const xhttp = new XMLHttpRequest();
+    //const endPointRoot = "https://inyoungkang.me/api/v1/scores/";
+    const endPointRoot = "http://localhost:8888/api/v1/";
+    const resource = "scores/"
+    
+    function post() {
+        reset();
+        
+        let name = document.getElementById('name').value.trim();
+        let score = document.getElementById('score').value.trim();
+
+        //validation check
+        if (name == "" || score == "") {
+            alert("Empty inputs");
+            return false;
+            
+        }
+
+        if (isNaN(score) == true) {
+            alert("Score must be a valid number");
+            return;
+        }
+
+        let params =`?name=${name}&score=${score}`;
+
+        const url = endPointRoot + resource;
+        xhttp.open("POST", url + params, true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send(params);
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 201) {
+                 let obj = JSON.parse(this.responseText);
+                 console.log(obj.success);
+                 console.log("response text"+this.responseText);
+                 if (obj.success != undefined) {
+                     //set txt as success message
+                     document.getElementById("res").innerHTML = obj.success;
+                 }
+                
+            } else {
+                let obj = JSON.parse(this.responseText);
+                if (obj.error != undefined) {
+                    //set txt as error message
+                    document.getElementById("res").innerHTML = obj.error;
+                }
+            }      
+        };
+    }
+
+    //clear txt
+    function reset() {
+        document.getElementById("res").innerHTML = "";
+    }
+</script>

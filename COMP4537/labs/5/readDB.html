@@ -4,28 +4,22 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search</title>
+    <title>readDB</title>
 </head>
 <body>
-    <div>
-        <button type="button" onclick="getData()">Load</button>
-        <br>
-    </div>
 
     <div>
         <p id = "display"></p>
     </div>
-
 
 </body>
 </html>
 <script>
     const xhttp = new XMLHttpRequest();
     const endPointRoot = "http://localhost:8888/api/v1/";
-    //const resource = "score/"
+    const resource = "scores/"
     function getData() {
-        reset();
-        const url = endPointRoot;
+        const url = endPointRoot + resource;
         xhttp.open("GET", url , true);
         xhttp.send();
         xhttp.onreadystatechange = function () {
@@ -42,12 +36,7 @@
             }
         }
        
-   
-        };
-    
-    //clear displays
-    function reset() {
-        document.getElementById("display").innerHTML = "";
+    };
 
-    }
+    window.onload = getData;
 </script>
