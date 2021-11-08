@@ -1,12 +1,11 @@
-const { pbkdf2 } = require('crypto');
 const http = require('http');
 let url = require('url');
-const words = require("./definitions/words");
 
 let counter = 0;
-let dictionary = [{word: "word", definition: "this is a great word"}, {word: "hello", definition: "hi there"}];
+let dictionary = [];
 
 /**
+ * dictionary format
  * [
  *     {word, definition}, {word, definition}
  * ]
@@ -20,8 +19,7 @@ const server = http.createServer((req, res) => {
     let wordq = q.query["word"];
     let definitionq = q.query["definition"];
 
-    let postUrl = "/api/definitions/?word=" + wordq + "&definition=" + definitionq;
-    let getUrl = "/api/definitions/?word=" + wordq
+    let getUrl = "/api/definitions/?word=" + wordq;
     
     if(req.url === "/api/definitions")
     {
@@ -43,7 +41,6 @@ const server = http.createServer((req, res) => {
             });
             // get from storage and display here
             res.end(JSON.stringify(obj));
-            console.log("found " + obj.word + ":" + obj.definition);
         }
         else
         {
@@ -73,10 +70,7 @@ const server = http.createServer((req, res) => {
             let message = "Request #" + counter + "\nNew Entry Recorded:\n" + post.word + " : " + post.definition;
             
             dictionary.push(post);
-            //res.end(JSON.stringify(post));
             res.end(JSON.stringify({posted:post, success: message}));
-            //console.log(success.message);
-            console.log("you added " + post.word +  " : " + post.definition);
         }
         else
         {
@@ -93,7 +87,7 @@ const server = http.createServer((req, res) => {
             'Access-Control-Allow-Origin': '*'
         });
 
-        res.end(JSON.stringify({message: "Route not found" + " url" + req.url + " method: " + req.method + "def q " + definitionq}));
+        res.end(JSON.stringify({message: "Route not found"}));
     }
 });
 
